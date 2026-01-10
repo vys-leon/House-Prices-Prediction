@@ -17,8 +17,8 @@ class FeatureSelector:
         self.categorical_features: List[str] = []
 
     def fit(self, data: pd.DataFrame) -> 'FeatureSelector':
-        self.numeric_features = data.select_dtypes(include='object').columns.tolist()
-        self.categorical_features = data.select_dtypes(include=['number']).columns.tolist()
+        self.numeric_features = data.select_dtypes(include='number').columns.tolist()
+        self.categorical_features = data.select_dtypes(include='object').columns.tolist()
         return self
 
 
@@ -40,7 +40,7 @@ class DataPreprocessor:
         categorical_pipeline = Pipeline(
             steps=[
                 ("imputer", SimpleImputer(strategy='most_frequent')),
-                ("encoder", OneHotEncoder(handle_unknown=False))
+                ("encoder", OneHotEncoder(handle_unknown='ignore'))
             ]
         )
 
