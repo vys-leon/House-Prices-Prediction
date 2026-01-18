@@ -16,8 +16,8 @@
 ## Данные
 
 Источник: Kaggle — House Prices: Advanced Regression Techniques
-(https://www.kaggle.com/competitions/house-prices-advanced-regression-techniques/overview)
-Размер датасета: ~1 460 объектов
+(https://www.kaggle.com/competitions/house-prices-advanced-regression-techniques/overview)  
+Размер датасета: ~1 460 объектов  
 Типы признаков: числовые и категориальные
 
 Особенности данных:
@@ -62,24 +62,6 @@ RMSLE ≈ 0.13054 (5-fold CV)
 RMSLE ≈ 0.13007 (5-fold CV)
 
 Добавление агрегированного признака площади привело к небольшому, но стабильному улучшению качества, что ожидаемо для tree-based моделей, способных частично восстанавливать такие зависимости самостоятельно.
-
-## Структура проекта
-
-├── data/
-│   ├── raw/            # исходные данные
-│   ├── processed/      # данные после preprocessing (опционально)
-|   ├── output/         # вывод для программ
-│
-├── notebooks/
-│   ├── 01_eda.ipynb
-│   ├── 02_modeling.ipynb
-│
-├── src/
-│   ├── data/
-│   │   └── preprocessing.py
-│
-├── requirements.txt
-└── README.md
 
 ## Используемые технологии
 
