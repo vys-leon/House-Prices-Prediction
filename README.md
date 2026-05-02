@@ -1,82 +1,81 @@
 # House Prices Prediction
 
-Проект посвящён решению задачи регрессии — предсказанию стоимости жилой недвижимости на основе табличных данных с использованием классических методов машинного обучения.
+<img src="https://img.shields.io/badge/RMSLE-0.13007-blue" /> <img src="https://img.shields.io/badge/Model-LightGBM-success" />
 
-Работа выполнена в формате end-to-end ML-пайплайна: от первичного анализа данных до построения и оценки baseline-моделей.
+**End-to-end ML pipeline** for regression problem on tabular data: from exploratory data analysis (EDA) to model training and evaluation
 
-## Постановка задачи
+**Goal:** Predict residential property prices based on their characteristics using classical machine learning methods
 
-Цель проекта — построить модель, оценивающую цену дома по его характеристикам (площадь, качество, состояние, наличие гаража и др.).
+## Key features
 
-Подобные модели могут использоваться для:
-- анализа рынка недвижимости,
-- автоматической предварительной оценки стоимости объектов,
-- поддержки принятия решений в смежных бизнес-задачах.
+* Fully reproducible pipeline built with `sklearn.pipeline` (data leakage prevention)
+* Modular preprocessing (separate handling of numerical and categorical features)
+* Quality evaluation with cross-validation (metric **RMSLE**)
 
-## Данные
+## Results
 
-Источник: Kaggle — House Prices: Advanced Regression Techniques
-(https://www.kaggle.com/competitions/house-prices-advanced-regression-techniques/overview)  
-Размер датасета: ~1 460 объектов  
-Типы признаков: числовые и категориальные
+| Model | Description | RMSLE (5-fold CV) |
+| :--- | :--- | :--- |
+| LightGBM (baseline) | Base model without feature engineering | 0.13054 |
+| LightGBM (improved) | Model with added feature `TotalSF` and optimized preprocessing | 0.13007 |
 
-Особенности данных:
-- наличие пропусков с различной семантикой,
-- выбросы и длинные хвосты распределений,
-- скошенное распределение целевой переменной,
-- нелинейные зависимости между признаками и таргетом.
+## Approach and solution architecture
 
-## Exploratory Data Analysis (EDA)
+The project implements a full ML development cycle:
 
-EDA был выполнен в минимально достаточном объёме и направлен на:
-- анализ распределения целевой переменной,
-- обработку пропусков с учётом смысла признаков,
-- разделение признаков на числовые и категориальные,
-- анализ корреляций числовых признаков с таргетом,
-- визуальный анализ влияния категориальных признаков на цену.
+1. Exploratory Data Analysis (EDA): Analysis of distributions, missing values, outliers and correlations
+2. Feature Engineering: Generation of the `TotalSF` feature (sum of areas) and selection of significant variables
+3. Preprocessing Pipeline:
+   * Numerical features: imputation of missing values with the median, standartization (`StandardScaler`)
+   * Categorical features: filling missing values with a constant, one-hot encoding
+4. Modeling: Training models (`Ridge`, `LightGBM`) with cross-validation. The target variable is log-transformed
+5. Validation: RMSLE metric is chosen as the primary metric because it is robust to outliers in price
 
-Детальный анализ отдельных признаков и feature selection выполнялись итеративно на этапе моделирования.
+## Project structure
 
-## Подход и реализация
+```text
+|-- data/
+|   |-- raw/
+|   |   |-- data_description.txt
+|   |   |-- train.csv
+|   |   |-- test.csv
+|   |   |__ sample_submission.csv
+|   |__ output/
+|   |   |__ my_submission.csv
+|-- notebooks/           # Jupyter notebooks with EDA and experiments
+|   |-- 01_eda.ipynb
+|   |__ 02_modeling.ipynb
+|-- src/
+|   |__ data/
+|   |   |__ preprocessing.py
+|-- .gitignore
+|-- README.md
+|__ requirements.txt
+```
 
-В проекте реализован воспроизводимый ML-пайплайн на базе scikit-learn, включающий:
-- модульный preprocessing (числовые и категориальные признаки),
-- логарифмическое преобразование целевой переменной,
-- baseline-модели: 
-  - Ridge Regression, 
-  - LightGBM Regressor
-- оценку качества с использованием k-fold cross-validation (RMSLE),
-- базовый feature engineering (агрегация площадей).
+## Quick start
 
-Все этапы preprocessing и моделирования инкапсулированы в sklearn-совместимый pipeline, что исключает утечки данных и упрощает дальнейшие эксперименты.
+### 1. Clone the repository
 
-Все эксперименты, EDA и моделирование реализованы в Jupyter notebooks.
-Процесс построен так, чтобы быть воспроизводимым и легко расширяемым.
+```bash
+git clone https://github.com/vys-leon/House-Prices-Prediction.git
+cd House-Prices-Prediction
+```
 
-## Результаты
+### 2. Install dependencies
 
-Начальный baseline (LightGBM, без feature engineering):
-RMSLE ≈ 0.13054 (5-fold CV)
+```bash
+pip install -r requirements.txt
+```
 
-Улучшенный baseline (с дополнительной фичей TotalSF):
-RMSLE ≈ 0.13007 (5-fold CV)
+### 3. Run notebooks
 
-Добавление агрегированного признака площади привело к небольшому, но стабильному улучшению качества, что ожидаемо для tree-based моделей, способных частично восстанавливать такие зависимости самостоятельно.
+Open 01_eda.ipynb or 02_modeling.ipynb and execute all cells
 
-## Используемые технологии
+## Technology stack
 
-- Python
-- NumPy, pandas
-- scikit-learn
-- LightGBM
-- matplotlib, seaborn
-
-## Выводы
-
-Проект демонстрирует полный цикл работы с табличными данными в задаче регрессии:
-- EDA,
-- preprocessing,
-- оценка моделей,
-- feature engineering.
-
-Работа выполнена с упором на чистоту архитектуры и воспроизводимость, что позволяет легко расширять проект и использовать его как основу для дальнейших экспериментов.
+* Language: Python 3.x
+* Data manipulation: NumPy, pandas
+* Visualization: matplotlib, seaborn
+* Modeling: scikit-learn, LightGBM
+* Tools: Git, Jupyter Notebook
