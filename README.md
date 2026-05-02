@@ -2,15 +2,15 @@
 
 <img src="https://img.shields.io/badge/RMSLE-0.13007-blue" /> <img src="https://img.shields.io/badge/Model-LightGBM-success" />
 
-**End-to-end ML pipeline** for regression problem on tabular data: from exploratory data analysis (EDA) to model training and evaluation
+End-to-end ML pipeline for regression problem on tabular data: from exploratory data analysis (EDA) to model training and evaluation
 
-**Goal:** Predict residential property prices based on their characteristics using classical machine learning methods
+Goal: Predict residential property prices based on their characteristics using classical machine learning methods
 
 ## Key features
 
 * Fully reproducible pipeline built with `sklearn.pipeline` (data leakage prevention)
 * Modular preprocessing (separate handling of numerical and categorical features)
-* Quality evaluation with cross-validation (metric **RMSLE**)
+* Quality evaluation with cross-validation (metric RMSLE)
 
 ## Results
 
